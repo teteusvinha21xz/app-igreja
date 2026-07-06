@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AD Vila Iolanda - Painel</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="body-app">
+
+    <header class="app-header">
+        <div class="header-info">
+            <h2>AD Vila Iolanda</h2>
+            <p class="user-status"><i class="fa-solid fa-circle-user"></i> Status: <strong id="user-display-email">Conectado</strong></p>
+        </div>
+        <button id="btn-sair" class="btn-sair"><i class="fa-solid fa-right-from-bracket"></i> Sair</button>
+    </header>
+
+    <main class="container-app">
+
+        <nav class="abas">
+            <button id="btn-agenda" class="aba-btn ativa" onclick="mudarAba('agenda')">
+                <i class="fa-solid fa-calendar-days"></i> <span>Agenda</span>
+            </button>
+            <button id="btn-louvores" class="aba-btn" onclick="mudarAba('louvores')">
+                <i class="fa-solid fa-music"></i> <span>Louvores</span>
+            </button>
+            <button id="btn-chat" class="aba-btn" onclick="mudarAba('chat')">
+                <i class="fa-solid fa-comments"></i> <span>Chat</span>
+            </button>
+        </nav>
+
+        <section id="aba-agenda" class="conteudo-aba">
+            <div class="section-title">
+                <h3><i class="fa-solid fa-calendar-week"></i> Cultos e Ensaios</h3>
+            </div>
+            
+            <div class="lista-eventos">
+                <div class="item-evento">
+                    <div class="evento-info">
+                        <span class="badge-data">Terça - 19:30</span>
+                        <p><strong>Culto de Ensino da Palavra</strong></p>
+                        <small>Geral • Templo Sede</small>
+                    </div>
+                </div>
+                <div class="item-evento">
+                    <div class="evento-info">
+                        <span class="badge-data gold">Quinta - 19:30</span>
+                        <p><strong>Ensaio Geral do Louvor</strong></p>
+                        <small>Ministério de Música</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-insercao">
+                <h4><i class="fa-solid fa-plus"></i> Agendar Evento / Ensaio</h4>
+                <input type="text" id="evento-nome" placeholder="Nome do Culto ou Reunião">
+                <input type="text" id="evento-data" placeholder="Ex: Sábado - 19:00">
+                <button class="btn-add" onclick="adicionarEvento()">Publicar na Agenda</button>
+            </div>
+        </section>
+
+        <section id="aba-louvores" class="conteudo-aba" style="display: none;">
+            <div class="section-title">
+                <h3><i class="fa-solid fa-sliders"></i> Repertório do Próximo Culto</h3>
+            </div>
+            
+            <ul class="lista-louvores">
+                <li>
+                    <i class="fa-solid fa-play icone-play"></i>
+                    <div class="louvor-detalhe">
+                        <strong>Porque Ele Vive</strong>
+                        <p>Harpa Cristã</p>
+                    </div>
+                </li>
+                <li>
+                    <i class="fa-solid fa-play icone-play"></i>
+                    <div class="louvor-detalhe">
+                        <strong>Bondade de Deus</strong>
+                        <p>Isaías Saad</p>
+                    </div>
+                </li>
+            </ul>
+
+            <div class="card-insercao">
+                <h4><i class="fa-solid fa-plus"></i> Inserir Música</h4>
+                <input type="text" id="louvor-nome" placeholder="Nome da Música e Cantor">
+                <button class="btn-add" onclick="adicionarLouvor()">Adicionar ao Repertório</button>
+            </div>
+        </section>
+
+        <section id="aba-chat" class="conteudo-aba" style="display: none;">
+            <div class="section-title">
+                <h3><i class="fa-solid fa-comment-dots"></i> Mural Interativo</h3>
+            </div>
+            
+            <div class="janela-chat" id="janela-chat">
+                <div class="mensagem">
+                    <span class="msg-autor"><i class="fa-solid fa-robot"></i> Sistema:</span>
+                    <p class="msg-texto">Bem-vindo ao mural! Carregando mensagens...</p>
+                </div>
+            </div>
+            
+            <div class="input-chat-container">
+                <input type="text" id="input-msg" placeholder="Envie uma mensagem para a igreja...">
+                <button id="btn-enviar-msg"><i class="fa-solid fa-paper-plane"></i></button>
+            </div>
+        </section>
+
+    </main>
+
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    
+    <script src="js/firebase-config.js"></script>
+
+    <script src="js/chat.js"></script>
+</body>
+</html>

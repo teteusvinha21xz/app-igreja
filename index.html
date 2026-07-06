@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AD Vila Iolanda - Login</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="body-login">
+
+    <div class="login-container" style="background: #001e3d; border-radius: 12px; padding: 30px; box-shadow: 0 8px 24px rgba(0,0,0,0.3); max-width: 400px; margin: 60px auto; font-family: sans-serif; color: #fff;">
+        <div class="login-header" style="text-align: center; margin-bottom: 25px;">
+            <i class="fa-solid fa-church login-logo" style="font-size: 40px; color: #ffd700; margin-bottom: 10px;"></i>
+            <h1 style="font-size: 28px; margin: 0;">AD Vila Iolanda</h1>
+            <p style="font-size: 14px; color: #b0c4de; margin: 5px 0 0 0;">Portal de Membros e Ministérios</p>
+        </div>
+
+        <form id="login-form">
+            <div class="input-group" style="margin-bottom: 15px;">
+                <label for="email" style="display: block; margin-bottom: 5px; font-size: 14px;"><i class="fa-solid fa-envelope"></i> E-mail</label>
+                <input type="email" id="email" placeholder="exemplo@email.com" required style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #2c4a6f; background: #002d5a; color: #fff; box-sizing: border-box;">
+            </div>
+
+            <div class="input-group" style="margin-bottom: 15px;">
+                <label for="password" style="display: block; margin-bottom: 5px; font-size: 14px;"><i class="fa-solid fa-lock"></i> Senha</label>
+                <input type="password" id="password" placeholder="Mínimo 6 dígitos" required style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #2c4a6f; background: #002d5a; color: #fff; box-sizing: border-box;">
+            </div>
+
+            <div class="input-group" style="margin-bottom: 25px;">
+                <label for="role" style="display: block; margin-bottom: 5px; font-size: 14px;"><i class="fa-solid fa-user-gear"></i> Função / Cargo</label>
+                <select id="role" required style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #2c4a6f; background: #002d5a; color: #fff; box-sizing: border-box;">
+                    <option value="membro" style="background: #002d5a;">Membro</option>
+                    <option value="pastor" style="background: #002d5a;">Pastor / Liderança</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn-login" style="width: 100%; padding: 12px; border: none; border-radius: 6px; background: #ffd700; color: #001e3d; font-weight: bold; font-size: 16px; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 10px;">
+                <span>Acessar Portal</span> <i class="fa-solid fa-right-to-bracket"></i>
+            </button>
+        </form>
+
+        <div class="login-footer" style="text-align: center; margin-top: 25px; font-size: 12px; color: #7795b6;">
+            <p style="margin: 0;">Assembleia de Deus • Vila Iolanda</p>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    
+    <script src="js/firebase-config.js"></script>
+    <script src="js/auth.js"></script>
+
+</body>
+</html>
