@@ -10,112 +10,181 @@
 <body class="body-app">
 
     <header class="app-header">
-        <div class="header-info">
+        <div class="header-left">
+            <button id="btn-menu-toggle" class="btn-menu-toggle" onclick="toggleMenu()">
+                <i class="fa-solid fa-bars"></i>
+            </button>
             <h2>AD Vila Iolanda</h2>
-            <p class="user-status"><i class="fa-solid fa-circle-user"></i> Status: <strong id="user-display-email">Conectado</strong></p>
         </div>
-        <button id="btn-sair" class="btn-sair"><i class="fa-solid fa-right-from-bracket"></i> Sair</button>
+        <div class="header-info">
+            <p class="user-status"><i class="fa-solid fa-circle-user"></i> <strong id="user-display-email">Carregando...</strong></p>
+            <button id="btn-sair" class="btn-sair"><i class="fa-solid fa-right-from-bracket"></i> Sair</button>
+        </div>
     </header>
 
     <main class="container-app">
 
-        <nav class="abas">
+        <nav id="menu-lateral" class="abas">
+            <div class="menu-header-mobile">
+                <span>Navegação</span>
+                <button class="btn-fechar-menu" onclick="toggleMenu()"><i class="fa-solid fa-xmark"></i></button>
+            </div>
             <button id="btn-agenda" class="aba-btn ativa" onclick="mudarAba('agenda')">
                 <i class="fa-solid fa-calendar-days"></i> <span>Agenda</span>
+            </button>
+            <button id="btn-avisos" class="aba-btn" onclick="mudarAba('avisos')">
+                <i class="fa-solid fa-bullhorn"></i> <span>Avisos</span>
+            </button>
+            <button id="btn-oracoes" class="aba-btn" onclick="mudarAba('oracoes')">
+                <i class="fa-solid fa-hands-praying"></i> <span>Orações</span>
             </button>
             <button id="btn-louvores" class="aba-btn" onclick="mudarAba('louvores')">
                 <i class="fa-solid fa-music"></i> <span>Louvores</span>
             </button>
             <button id="btn-chat" class="aba-btn" onclick="mudarAba('chat')">
-                <i class="fa-solid fa-comments"></i> <span>Chat</span>
+                <i class="fa-solid fa-comments"></i> <span>Mural</span>
+            </button>
+            <button id="btn-perfil" class="aba-btn" onclick="mudarAba('perfil')">
+                <i class="fa-solid fa-id-card"></i> <span>Perfil</span>
+            </button>
+            <button id="btn-contribuições" class="aba-btn" onclick="mudarAba('contribuições')">
+                <i class="fa-solid fa-hand-holding-dollar"></i> <span>Contribuições</span>
             </button>
         </nav>
 
-        <section id="aba-agenda" class="conteudo-aba">
-            <div class="section-title">
-                <h3><i class="fa-solid fa-calendar-week"></i> Cultos e Ensaios</h3>
-            </div>
+        <div class="conteudo-principal">
             
-            <div class="lista-eventos">
-                <div class="item-evento">
-                    <div class="evento-info">
-                        <span class="badge-data">Terça - 19:30</span>
-                        <p><strong>Culto de Ensino da Palavra</strong></p>
-                        <small>Geral • Templo Sede</small>
-                    </div>
+            <section id="aba-agenda" class="conteudo-aba">
+                <div class="section-title">
+                    <h3><i class="fa-solid fa-calendar-week"></i> Cultos e Ensaios</h3>
                 </div>
-                <div class="item-evento">
-                    <div class="evento-info">
-                        <span class="badge-data gold">Quinta - 19:30</span>
-                        <p><strong>Ensaio Geral do Louvor</strong></p>
-                        <small>Ministério de Música</small>
-                    </div>
+                <div class="lista-eventos"></div>
+                <div class="card-insercao">
+                    <h4><i class="fa-solid fa-plus"></i> Agendar Evento / Ensaio</h4>
+                    <input type="text" id="evento-nome" placeholder="Nome do Culto ou Reunião">
+                    <input type="text" id="evento-data" placeholder="Ex: Sábado - 19:00">
+                    <button class="btn-add" onclick="adicionarEvento()">Publicar na Agenda</button>
                 </div>
-            </div>
+            </section>
 
-            <div class="card-insercao">
-                <h4><i class="fa-solid fa-plus"></i> Agendar Evento / Ensaio</h4>
-                <input type="text" id="evento-nome" placeholder="Nome do Culto ou Reunião">
-                <input type="text" id="evento-data" placeholder="Ex: Sábado - 19:00">
-                <button class="btn-add" onclick="adicionarEvento()">Publicar na Agenda</button>
-            </div>
-        </section>
-
-        <section id="aba-louvores" class="conteudo-aba" style="display: none;">
-            <div class="section-title">
-                <h3><i class="fa-solid fa-sliders"></i> Repertório do Próximo Culto</h3>
-            </div>
-            
-            <ul class="lista-louvores">
-                <li>
-                    <i class="fa-solid fa-play icone-play"></i>
-                    <div class="louvor-detalhe">
-                        <strong>Porque Ele Vive</strong>
-                        <p>Harpa Cristã</p>
-                    </div>
-                </li>
-                <li>
-                    <i class="fa-solid fa-play icone-play"></i>
-                    <div class="louvor-detalhe">
-                        <strong>Bondade de Deus</strong>
-                        <p>Isaías Saad</p>
-                    </div>
-                </li>
-            </ul>
-
-            <div class="card-insercao">
-                <h4><i class="fa-solid fa-plus"></i> Inserir Música</h4>
-                <input type="text" id="louvor-nome" placeholder="Nome da Música e Cantor">
-                <button class="btn-add" onclick="adicionarLouvor()">Adicionar ao Repertório</button>
-            </div>
-        </section>
-
-        <section id="aba-chat" class="conteudo-aba" style="display: none;">
-            <div class="section-title">
-                <h3><i class="fa-solid fa-comment-dots"></i> Mural Interativo</h3>
-            </div>
-            
-            <div class="janela-chat" id="janela-chat">
-                <div class="mensagem">
-                    <span class="msg-autor"><i class="fa-solid fa-robot"></i> Sistema:</span>
-                    <p class="msg-texto">Bem-vindo ao mural! Carregando mensagens...</p>
+            <section id="aba-avisos" class="conteudo-aba" style="display: none;">
+                <div class="section-title">
+                    <h3><i class="fa-solid fa-bullhorn"></i> Secretaria e Avisos Oficiais</h3>
                 </div>
-            </div>
-            
-            <div class="input-chat-container">
-                <input type="text" id="input-msg" placeholder="Envie uma mensagem para a igreja...">
-                <button id="btn-enviar-msg"><i class="fa-solid fa-paper-plane"></i></button>
-            </div>
-        </section>
+                <div id="lista-avisos" class="lista-avisos">
+                    <p style="color: #64748b;">Nenhum aviso importante publicado ainda.</p>
+                </div>
+                <div class="card-insercao card-admin-avisos">
+                    <h4><i class="fa-solid fa-pen-to-square"></i> Emitir Comunicado Oficial (Apenas Pastores)</h4>
+                    <input type="text" id="aviso-titulo" placeholder="Título do Comunicado">
+                    <input type="text" id="aviso-texto" placeholder="Escreva a mensagem aqui...">
+                    <button class="btn-add" onclick="adicionarAviso()">Publicar Aviso</button>
+                </div>
+            </section>
 
+            <section id="aba-oracoes" class="conteudo-aba" style="display: none;">
+                <div class="section-title">
+                    <h3><i class="fa-solid fa-hands-praying"></i> Clamor e Intercessão</h3>
+                </div>
+                <div id="lista-oracoes" class="lista-oracoes"></div>
+                <div class="card-insercao">
+                    <h4><i class="fa-solid fa-plus"></i> Deixar um Pedido de Oração</h4>
+                    <input type="text" id="oracao-pedido" placeholder="Escreva seu motivo ou pedido de oração...">
+                    <button class="btn-add" onclick="adicionarPedidoOracao()">Enviar ao Mural de Oração</button>
+                </div>
+            </section>
+
+            <section id="aba-louvores" class="conteudo-aba" style="display: none;">
+                <div class="section-title">
+                    <h3><i class="fa-solid fa-sliders"></i> Repertório do Próximo Culto</h3>
+                </div>
+                <ul class="lista-louvores">
+                    <li>
+                        <i class="fa-solid fa-play icone-play"></i>
+                        <div class="louvor-detalhe">
+                            <strong>Porque Ele Vive</strong>
+                            <p>Harpa Cristã</p>
+                        </div>
+                    </li>
+                </ul>
+                <div class="card-insercao">
+                    <h4><i class="fa-solid fa-plus"></i> Inserir Música</h4>
+                    <input type="text" id="louvor-nome" placeholder="Nome da Música e Cantor">
+                    <button class="btn-add" onclick="adicionarLouvor()">Adicionar ao Repertório</button>
+                </div>
+            </section>
+
+            <section id="aba-chat" class="conteudo-aba" style="display: none;">
+                <div class="section-title">
+                    <h3><i class="fa-solid fa-comment-dots"></i> Mural Interativo</h3>
+                </div>
+                <div class="janela-chat" id="janela-chat"></div>
+                <div class="input-chat-container">
+                    <input type="text" id="input-msg" placeholder="Envie uma mensagem para a igreja...">
+                    <button id="btn-enviar-msg"><i class="fa-solid fa-paper-plane"></i></button>
+                </div>
+            </section>
+
+            <section id="aba-perfil" class="conteudo-aba" style="display: none;">
+                <div class="section-title">
+                    <h3><i class="fa-solid fa-user-pen"></i> Meu Perfil</h3>
+                </div>
+                <div class="card-perfil-edit">
+                    <div class="form-group">
+                        <label>Nome Completo:</label>
+                        <input type="text" id="perfil-nome" placeholder="Como quer ser chamado">
+                    </div>
+                    <div class="form-group">
+                        <label>Data de Nascimento:</label>
+                        <input type="date" id="perfil-nascimento">
+                    </div>
+                    <div class="form-group">
+                        <label>WhatsApp:</label>
+                        <input type="tel" id="perfil-whats" placeholder="(11) 99999-9999">
+                    </div>
+                    <button class="btn-add" onclick="salvarPerfil()">Salvar Dados</button>
+                </div>
+
+                <div class="section-title" style="margin-top: 30px;">
+                    <h3><i class="fa-solid fa-cake-candles"></i> Aniversariantes do Mês</h3>
+                </div>
+                <div id="lista-aniversariantes" class="lista-aniversarios">
+                    <p style="color: #b0c4de;">Carregando celebrações...</p>
+                </div>
+            </section>
+
+            <section id="aba-contribuições" class="conteudo-aba" style="display: none;">
+                <div class="section-title">
+                    <h3><i class="fa-solid fa-hand-holding-dollar"></i> Dízimos e Ofertas</h3>
+                </div>
+                <p style="color: #475569; margin-bottom: 20px; line-height: 1.6;">"Cada um contribua segundo propôs no seu coração; não com tristeza, ou por necessidade; because Deus ama ao que dá com alegria." — <strong>2 Coríntios 9:7</strong></p>
+                
+                <div class="card-pix">
+                    <div class="pix-badge"><i class="fa-solid fa-qrcode"></i> CHAVE PIX CNPJ</div>
+                    <span id="chave-pix-texto" class="chave-txt">00.000.000/0001-00</span>
+                    <button class="btn-copiar" onclick="copiarPix()">
+                        <i class="fa-solid fa-copy"></i> Copiar Chave PIX
+                    </button>
+                </div>
+
+                <div class="dados-bancarios">
+                    <h4>Dados Bancários</h4>
+                    <p><strong>Banco:</strong> Bradesco</p>
+                    <p><strong>Agência:</strong> 1234</p>
+                    <p><strong>Conta Corrente:</strong> 56789-0</p>
+                    <p><strong>Favorecido:</strong> Assembleia de Deus Vila Iolanda</p>
+                </div>
+            </section>
+            
+        </div>
     </main>
 
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
-    
     <script src="js/firebase-config.js"></script>
-
     <script src="js/chat.js"></script>
+    <script src="js/profile.js"></script>
+    <script src="js/features.js"></script> 
 </body>
 </html>

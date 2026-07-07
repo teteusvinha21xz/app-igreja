@@ -9,18 +9,13 @@ document.addEventListener('DOMContentLoaded', () => {
             const password = document.getElementById('password').value;
             const role = document.getElementById('role').value;
 
-            // Tenta fazer o login no Firebase
             auth.signInWithEmailAndPassword(email, password)
                 .then((userCredential) => {
                     localStorage.setItem('userRole', role);
                     window.location.href = 'dashboard.html';
                 })
                 .catch((error) => {
-                    console.log("Código do erro:", error.code);
-                    
-                    // Se o usuário não existir ou se a credencial falhar nos testes, criamos/resetamos para facilitar
                     if (error.code === 'auth/user-not-found' || error.code === 'auth/invalid-credential' || error.code === 'auth/wrong-password') {
-                        
                         auth.createUserWithEmailAndPassword(email, password)
                             .then((userCredential) => {
                                 alert("Conta registrada com sucesso no portal AD Vila Iolanda!");
@@ -28,7 +23,6 @@ document.addEventListener('DOMContentLoaded', () => {
                                 window.location.href = 'dashboard.html';
                             })
                             .catch((erroCriar) => {
-                                // Se o e-mail já existir e a senha foi digitada errada, avisa o usuário
                                 if (erroCriar.code === 'auth/email-already-in-use') {
                                     alert("Este e-mail já está cadastrado. Verifique a senha digitada!");
                                 } else {

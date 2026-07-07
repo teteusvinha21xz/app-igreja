@@ -1,18 +1,15 @@
 // ==========================================================================
-// 1. VERIFICAÇÃO DE SEGURANÇA E CONTROLE DE SESSÃO
+// 1. SEGURANÇA E CONTROLE DE SESSÃO
 // ==========================================================================
 auth.onAuthStateChanged((user) => {
     if (!user) {
-        // Se não há usuário logado no Firebase, expulsa para a tela de login
         window.location.href = 'index.html';
     } else {
-        // Se estiver logado, exibe o e-mail do irmão no topo do painel
         const statusEmail = document.getElementById('user-display-email');
         if (statusEmail) statusEmail.innerText = user.email;
     }
 });
 
-// Botão de Sair (Logoff)
 const btnSair = document.getElementById('btn-sair');
 if (btnSair) {
     btnSair.addEventListener('click', () => {
@@ -24,36 +21,50 @@ if (btnSair) {
 }
 
 // ==========================================================================
-// 2. CONTROLADOR DE ABAS (Troca de telas)
+// 2. CONTROLADOR DE ABAS E MENU LATERAL RETRÁTIL (3 LISTRAS)
 // ==========================================================================
+function toggleMenu() {
+    const menu = document.getElementById('menu-lateral');
+    if (menu) {
+        menu.classList.toggle('aberto');
+    }
+}
+
 function mudarAba(nomeAba) {
+    // Esconde todas as seções de conteúdo
     const secoes = document.querySelectorAll('.conteudo-aba');
     secoes.forEach(aba => aba.style.display = 'none');
 
+    // Remove o estado ativo de todos os botões do menu
     const botoes = document.querySelectorAll('.aba-btn');
     botoes.forEach(btn => btn.classList.remove('ativa'));
 
+    // Mostra a seção desejada e ativa o botão correspondente
     document.getElementById('aba-' + nomeAba).style.display = 'block';
     document.getElementById('btn-' + nomeAba).classList.add('ativa');
+
+    // Fecha o menu lateral automaticamente após o clique (ideal para telemóveis)
+    const menu = document.getElementById('menu-lateral');
+    if (menu) {
+        menu.classList.remove('aberto');
+    }
 }
 
 // ==========================================================================
-// 3. LÓGICA DO CHAT EM TEMPO REAL (FIRESTORE)
+// 3. MURAL DE RECADOS / CHAT EM TEMPO REAL
 // ==========================================================================
 const janelaChat = document.getElementById('janela-chat');
 const inputMsg = document.getElementById('input-msg');
 const btnEnviarMsg = document.getElementById('btn-enviar-msg');
 
-// Escuta as mensagens do banco de dados continuamente
 db.collection('mensagens').orderBy('data', 'asc')
     .onSnapshot((snapshot) => {
         if (!janelaChat) return;
-        janelaChat.innerHTML = ''; // Limpa o chat para atualizar
+        janelaChat.innerHTML = '';
         
         snapshot.forEach((doc) => {
             const dados = doc.data();
             const div = document.createElement('div');
-            
             const usuarioAtual = auth.currentUser ? auth.currentUser.email : '';
             
             if (dados.usuario === usuarioAtual) {
@@ -66,11 +77,9 @@ db.collection('mensagens').orderBy('data', 'asc')
             }
             janelaChat.appendChild(div);
         });
-        
-        janelaChat.scrollTop = janelaChat.scrollHeight; // Rola para o fim
+        janelaChat.scrollTop = janelaChat.scrollHeight;
     });
 
-// Função para enviar mensagem no Mural
 function enviarMensagem() {
     const texto = inputMsg.value.trim();
     if (texto === '') return;
@@ -90,27 +99,17 @@ function enviarMensagem() {
         cargo: cargoSalvo,
         data: firebase.firestore.FieldValue.serverTimestamp()
     })
-    .then(() => {
-        inputMsg.value = '';
-    })
-    .catch((erro) => {
-        alert("Erro ao enviar mensagem: " + erro.message);
-    });
+    .then(() => { inputMsg.value = ''; })
+    .catch((erro) => { alert("Erro ao enviar: " + erro.message); });
 }
 
 if (btnEnviarMsg) btnEnviarMsg.addEventListener('click', enviarMensagem);
-if (inputMsg) {
-    inputMsg.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') enviarMensagem();
-    });
-}
+if (inputMsg) { inputMsg.addEventListener('keypress', (e) => { if (e.key === 'Enter') enviarMensagem(); }); }
 
 // ==========================================================================
-// 4. LÓGICA DA AGENDA EM TEMPO REAL (FIRESTORE)
+// 4. LÓGICA DA AGENDA EM TEMPO REAL
 // ==========================================================================
 const listaEventosContainer = document.querySelector('.lista-eventos');
-
-// Escuta os cultos e ensaios salvos no Firestore
 db.collection('agenda').orderBy('ordemData', 'asc')
     .onSnapshot((snapshot) => {
         if (!listaEventosContainer) return;
@@ -120,7 +119,6 @@ db.collection('agenda').orderBy('ordemData', 'asc')
             const evento = doc.data();
             const div = document.createElement('div');
             div.className = 'item-evento';
-
             const classeBadge = evento.tipo === 'ensaio' ? 'badge-data gold' : 'badge-data';
 
             div.innerHTML = `
@@ -134,11 +132,9 @@ db.collection('agenda').orderBy('ordemData', 'asc')
         });
     });
 
-// Função para criar evento (Apenas Pastor)
 function adicionarEvento() {
     const nomeInput = document.getElementById('evento-nome');
     const dataInput = document.getElementById('evento-data');
-
     if (!nomeInput || !dataInput) return;
 
     const nome = nomeInput.value.trim();
@@ -151,7 +147,7 @@ function adicionarEvento() {
     }
 
     if (nome === '' || diaHora === '') {
-        alert("Preencha todos os campos do evento!");
+        alert("Preencha todos os campos!");
         return;
     }
 
@@ -165,19 +161,8 @@ function adicionarEvento() {
         detalhes: detalhes,
         ordemData: firebase.firestore.FieldValue.serverTimestamp()
     })
-    .then(() => {
-        nomeInput.value = '';
-        dataInput.value = '';
-        alert("Culto/Ensaio publicado com sucesso!");
-    })
-    .catch((erro) => {
-        alert("Erro ao salvar agenda: " + erro.message);
-    });
+    .then(() => { nomeInput.value = ''; dataInput.value = ''; alert("Culto/Ensaio publicado!"); })
+    .catch((erro) => { alert("Erro ao salvar: " + erro.message); });
 }
 
-// ==========================================================================
-// 5. ABA LOUVORES (Temporário para desenvolvimento)
-// ==========================================================================
-function adicionarLouvor() { 
-    alert("Perfeito! Agenda e Chat concluídos. Louvores será a nossa próxima integração!"); 
-}
+function adicionarLouvor() { alert("Louvores integrados em breve!"); }
